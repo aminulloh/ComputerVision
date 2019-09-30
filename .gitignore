@@ -1,0 +1,39 @@
+# Don't track content of these folders
+ Praktikum 1/x64/
+ Praktikum 2/x64/
+ Praktikum 3/x64/
+ Praktikum 4/x64/
+ Task 2/x64/
+ x64/
+
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.tlog
+*.log
+*.lastbuildstate
+*.obj
+*.iobj
+*.pdb
+*.ipdb
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+

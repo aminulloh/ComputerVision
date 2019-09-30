@@ -14,7 +14,7 @@ using namespace std;
 using namespace cv;
 
 //Praktikum 1 Brightness and Contrast
-
+/* 
 double alpha; // Simple contrast control 
 int beta;	// Simple brightness control 
 int main()
@@ -52,7 +52,7 @@ int main()
 	waitKey();
 	return 0;
 }
-
+*/
 
 //Praktikum 2 Color Transformation
 /* 
@@ -87,6 +87,86 @@ int main()
 }
 */
 
+//Tugas 2.1 Manual RGB2Gray
+/* 
+int main()
+{
+	const float pi = 3.14;
+	Mat src1, src2;
+	src1 = imread("OrangeCat.jpg", CV_LOAD_IMAGE_COLOR);
+	src2 = Mat::zeros(src1.rows, src1.cols, CV_8UC1);
+
+	if (!src1.data) { printf("Error loading src1 \n"); return -1; }
+
+	for (int i = 0; i<src1.cols; i++) {
+		for (int j = 0; j<src1.rows; j++)
+		{
+			Vec3b color1 = src1.at<Vec3b>(Point(i, j));
+			Scalar color2 = src2.at<uchar>(Point(i, j));
+			color2 = (color1.val[0] + color1.val[1] + color1.val[2]) / 3;
+
+			src2.at<uchar>(Point(i, j)) = color2.val[0];
+		}
+	}
+
+	//imwrite("C:\\Users\\arjun\\Desktop\\greyscale.jpg",src2);
+
+	namedWindow("GRAYSCALE_IMAGE", CV_WINDOW_AUTOSIZE);
+	imshow("GRAYSCALE_IMAGE", src2);
+
+	namedWindow("Original Image", CV_WINDOW_AUTOSIZE);
+	imshow("Original Image", src1);
+
+	waitKey(0);
+	return 0;
+}
+*/
+
+//Tugas2.2
+/*
+int main() {
+	Mat image;
+	image = imread("cat.jpg", 1);
+
+	Mat RGB2GRAY_image;
+	cvtColor(image, RGB2GRAY_image, CV_RGB2GRAY);
+
+	Mat RGB2XYZ_image;
+	cvtColor(image, RGB2XYZ_image, CV_RGB2XYZ);
+
+	Mat RGB2YCrCb_image;
+	cvtColor(image, RGB2YCrCb_image, CV_RGB2YCrCb);
+
+	Mat RGB2HSV_image;
+	cvtColor(image, RGB2HSV_image, CV_RGB2HSV);
+
+	Mat RGB2Lab_image;
+	cvtColor(image, RGB2Lab_image, CV_RGB2Lab);
+
+	namedWindow("original image", CV_WINDOW_AUTOSIZE);
+	imshow("original image", image);
+
+	namedWindow("RGB2GRAY image", CV_WINDOW_AUTOSIZE);
+	imshow("RGB2GRAY image", RGB2GRAY_image);
+
+	namedWindow("RGB2XYZ image", CV_WINDOW_AUTOSIZE);
+	imshow("RGB2XYZ image", RGB2XYZ_image);
+
+	namedWindow("RGB2YCrCb image", CV_WINDOW_AUTOSIZE);
+	imshow("RGB2YCrCb image", RGB2YCrCb_image);
+
+	namedWindow("RGB2HSV image", CV_WINDOW_AUTOSIZE);
+	imshow("RGB2HSV image", RGB2HSV_image);
+
+	namedWindow("RGB2Lab image", CV_WINDOW_AUTOSIZE);
+	imshow("RGB2Lab image", RGB2Lab_image);
+
+	waitKey(0);
+
+	return 0;
+}
+*/
+
 //Praktikum 3 Compositing and matting
 /* 
 int main(int argc, char** argv)
@@ -106,8 +186,8 @@ int main(int argc, char** argv)
 	{ alpha = input; }
 
 	/// Read image ( same size, same type ) 
-	src1 = imread("GrayCat.jpg");
-	src2 = imread("OrangeCat.jpg");
+	src1 = imread("BlendApp.jpg");
+	src2 = imread("BlendTrump.jpg");
 
 	if (!src1.data) { printf("Error loading src1 \n"); return -1; } 
 	if (!src2.data) { printf("Error loading src2 \n"); return -1; }
@@ -118,13 +198,64 @@ int main(int argc, char** argv)
 	beta = (1.0 - alpha);
 	addWeighted(src1, alpha, src2, beta, 0.0, dst); 
 	imshow("Linear Blend", dst);
+
+	namedWindow("image1", CV_WINDOW_AUTOSIZE);
+	imshow("image1", src1);
+	namedWindow("image2", CV_WINDOW_AUTOSIZE);
+	imshow("image2", src2);
 	waitKey(0); 
 	return 0;
 }
 */
 
+//Tugas 3.1 Blending
+/*
+void alphaBlend(Mat& foreground, Mat& background, Mat& alpha, Mat& outImage)
+{
+	// Find number of pixels. 
+	int numberOfPixels = foreground.rows * foreground.cols * foreground.channels();
+
+	// Get floating point pointers to the data matrices
+	float* fptr = reinterpret_cast<float*>(foreground.data);
+	float* bptr = reinterpret_cast<float*>(background.data);
+	float* aptr = reinterpret_cast<float*>(alpha.data);
+	float* outImagePtr = reinterpret_cast<float*>(outImage.data);
+
+	// Loop over all pixesl ONCE
+	for (
+		int i = 0;
+		i < numberOfPixels;
+		i++, outImagePtr++, fptr++, aptr++, bptr++
+		)
+	{
+		*outImagePtr = (*fptr)*(*aptr) + (*bptr)*(1 - *aptr);
+	}
+}
+
+int main() {
+
+	Mat foreground = imread("BlendTrump.jpg");
+	Mat background = imread("BlendLenna.jpg");
+	Mat alpha = imread("BlendApp.jpg");
+
+	// Convert Mat to float data type
+	foreground.convertTo(foreground, CV_32FC3);
+	background.convertTo(background, CV_32FC3);
+
+	// Storage for output image
+	Mat ouImage = Mat::zeros(foreground.size(), foreground.type());
+
+	alphaBlend(foreground,background,alpha,ouImage);
+
+	imshow("alpha blended image", ouImage / 255);
+	waitKey(0);
+
+	return 0;
+}
+*/
+
 //Praktikum 4 Histogram
-/* 
+/*
 int main()
 {
 	Mat src, dst;
@@ -186,6 +317,99 @@ int main()
 	return 0;
 }
 */
+
+//Tugas 4.1 Histogram grayscale
+/* 
+int main() {
+	
+	Mat src, dst;
+	/// Load image
+	src = imread("OrangeCat.jpg", 1);
+	if (!src.data)
+	{
+		return -1;
+	}
+
+	Mat gray_image;
+	cvtColor(src, gray_image, CV_RGB2GRAY);
+
+	/// Establish the number of bins
+	int histSize = 256;
+
+	/// Set the ranges ( for B,G,R) )
+	float range[] = { 0, 256 };
+	const float* histRange = { range };
+
+	bool uniform = true;
+	bool accumulate = false;
+
+	Mat gray_hist;
+
+	/// Compute the histograms:
+	calcHist(&gray_image, 1, 0, Mat(), gray_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+	// Draw the histograms for B, G and R 
+	int hist_w = 512;
+	int hist_h = 400;
+	int bin_w = cvRound((double)hist_w / histSize);
+
+	Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+	/// Normalize the result to [ 0, histImage.rows ]
+	normalize(gray_hist, gray_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+	/// Draw for each channel 
+	for (int i = 1; i < histSize; i++)
+	{
+		line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(gray_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(gray_hist.at<float>(i))),
+			Scalar(128, 128, 128), 2, 8, 0);
+	}
+
+	/// Display
+	namedWindow("calcHist gray", CV_WINDOW_AUTOSIZE);
+	imshow("calcHist gray", histImage);
+
+	namedWindow("Image", CV_WINDOW_AUTOSIZE);
+	imshow("Image", gray_image);
+
+	waitKey(0);
+	return 0;
+}
+*/
+
+
+//Tugas 4.2 Histogram without calhist
+
+vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
+{
+	CvSize size = cvGetSize(src_pic);
+	double binSize = 256.0 / anzBin;        //new definition
+	vector<int> histogram(anzBin, 0);        //i don't know if this works so I
+											 //so I will leave it
+
+											 //goes through all rows
+	for (int y = 0; y<size.height; y++)
+	{
+		//grabs an entire row of the imageData
+		const uchar *src_pic_point = (uchar *)(src_pic->imageData + y*src_pic->widthStep);
+
+		//goes through each column
+		for (int x = 0; x<size.width; x++)
+		{
+			//for each bin
+			for (int z = 0; z < anzBin; z++)
+			{
+				//check both upper and lower limits
+				if (src_pic_point[x] >= z*binSize && src_pic_point[x] < (z + 1)*binSize)
+				{
+					//increment the index that contains the point
+					histogram[z]++;
+				}
+			}
+		}
+	}
+	return histogram;
+}
 
 //Praktikum 5 Histogram Equalization
 /* 

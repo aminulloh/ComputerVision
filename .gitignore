@@ -3,6 +3,13 @@
  Praktikum 2/x64/
  Praktikum 3/x64/
  Praktikum 4/x64/
+ Praktikum 5/x64/
+ Praktikum 6/x64/
+ Praktikum 7/x64/
+ Praktikum 8/x64/
+ Praktikum 9/x64/
+ Praktikum 10/x64/
+ Praktikum 11/x64/
  Task 2/x64/
  x64/
 
@@ -22,6 +29,7 @@
 *.iobj
 *.pdb
 *.ipdb
+*.opendb
 
 
 # Packages #

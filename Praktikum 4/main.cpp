@@ -1,4 +1,4 @@
-#include<stdlib.h>
+ #include<stdlib.h>
 #include<math.h>
 #include<string.h>
 #include<iostream>
@@ -331,6 +331,7 @@ int main() {
 	}
 
 	Mat gray_image;
+<<<<<<< HEAD
 	cvtColor(src, gray_image, CV_RGB2GRAY);
 
 	/// Establish the number of bins
@@ -380,6 +381,57 @@ int main() {
 
 //Tugas 4.2 Histogram without calhist
 /* 
+=======
+	cvtColor(src, gray_image, CV_RGB2GRAY);
+
+	/// Establish the number of bins
+	int histSize = 256;
+
+	/// Set the ranges ( for B,G,R) )
+	float range[] = { 0, 256 };
+	const float* histRange = { range };
+
+	bool uniform = true;
+	bool accumulate = false;
+
+	Mat gray_hist;
+
+	/// Compute the histograms:
+	calcHist(&gray_image, 1, 0, Mat(), gray_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+	// Draw the histograms for B, G and R 
+	int hist_w = 512;
+	int hist_h = 400;
+	int bin_w = cvRound((double)hist_w / histSize);
+
+	Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+	/// Normalize the result to [ 0, histImage.rows ]
+	normalize(gray_hist, gray_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+	/// Draw for each channel 
+	for (int i = 1; i < histSize; i++)
+	{
+		line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(gray_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(gray_hist.at<float>(i))),
+			Scalar(128, 128, 128), 2, 8, 0);
+	}
+
+	/// Display
+	namedWindow("calcHist gray", CV_WINDOW_AUTOSIZE);
+	imshow("calcHist gray", histImage);
+
+	namedWindow("Image", CV_WINDOW_AUTOSIZE);
+	imshow("Image", gray_image);
+
+	waitKey(0);
+	return 0;
+}
+*/
+
+
+//Tugas 4.2 Histogram without calhist
+
+>>>>>>> 055c987c2c77e33a930164cc3ae4b542baad6fef
 vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 {
 	CvSize size = cvGetSize(src_pic);
@@ -409,6 +461,7 @@ vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 		}
 	}
 	return histogram;
+<<<<<<< HEAD
 }
 */
 
@@ -524,3 +577,124 @@ int main() {
 		}
 	}
 }
+=======
+}
+
+//Praktikum 5 Histogram Equalization
+/* 
+int main()
+{
+	Mat src, dst;
+	char* source_window = "Source image";
+	char* equalized_window = "Equalized Image";
+
+	/// Load image
+	src = imread("OrangeCat.jpg", 1);
+
+	if (!src.data)
+	{
+		cout << "Usage: ./Histogram_Demo <path_to_image>" << endl; 
+		return -1;
+	}
+
+	/// Convert to grayscale
+	cvtColor(src, src, CV_BGR2GRAY);
+
+	/// Apply Histogram Equalization
+	equalizeHist(src, dst);
+
+	/// Display results
+	namedWindow(source_window, CV_WINDOW_AUTOSIZE); 
+	namedWindow(equalized_window, CV_WINDOW_AUTOSIZE);
+		
+	imshow(source_window, src);
+	imshow(equalized_window, dst);
+
+	/// Wait until user exits the program 
+	waitKey(0);
+
+	return 0;
+}
+*/
+
+//Tugas
+/* 
+
+int main() {
+
+	// Don't use global variables if they are not needed!
+	VideoCapture vid(0);
+	Mat frame;
+	while (true)
+	{
+		// Read frame
+		vid.read(frame);
+
+		/// Separate the image in 3 places ( B, G and R )
+		vector<Mat> bgr_planes;
+		split(frame, bgr_planes);
+
+		/// Establish the number of bins
+		int histSize = 256;
+
+		/// Set the ranges ( for B,G,R) )
+		float range[] = { 0, 256 };
+		const float* histRange = { range };
+
+		bool uniform = true;
+		bool accumulate = false;
+
+		Mat b_hist, g_hist, r_hist;
+
+		/// Compute the histograms:
+		calcHist(&bgr_planes[0], 1, 0, Mat(), b_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+		calcHist(&bgr_planes[1], 1, 0, Mat(), g_hist, 1, &histSize, &histRange, uniform, accumulate);
+		calcHist(&bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+		// Draw the histograms for B, G and R 
+		int hist_w = 512;
+		int hist_h = 400;
+		int bin_w = cvRound((double)hist_w / histSize);
+
+		Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+		/// Normalize the result to [ 0, histImage.rows ]
+		normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+		normalize(g_hist, g_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+		normalize(r_hist, r_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+		/// Draw for each channel 
+		for (int i = 1; i < histSize; i++)
+		{
+			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(b_hist.at<float>(i))),
+				Scalar(255, 0, 0), 2, 8, 0);
+			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(g_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(g_hist.at<float>(i))),
+				Scalar(0, 255, 0), 2, 8, 0);
+			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(r_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(r_hist.at<float>(i))),
+				Scalar(0, 0, 255), 2, 8, 0);
+		}
+
+		Size sz1 = frame.size();
+		Size sz2 = histImage.size();
+
+
+		Mat im3(sz1.height, sz1.width+sz2.width, CV_8UC3);
+		Mat Left(im3, Rect(0, 0, sz1.width, sz1.height));
+		frame.copyTo(Left);
+		Mat Right(im3, Rect(sz1.width,0,sz2.width,sz2.height));
+		histImage.copyTo(Right);
+
+		/// Display
+		imshow("Webcam", im3);
+
+		if ((waitKey(30) & 0xFF) == 27) { // for portability
+			break;
+		}
+	}
+}
+
+
+
+*/
+>>>>>>> 055c987c2c77e33a930164cc3ae4b542baad6fef

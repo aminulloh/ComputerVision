@@ -379,7 +379,7 @@ int main() {
 
 
 //Tugas 4.2 Histogram without calhist
-
+/* 
 vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 {
 	CvSize size = cvGetSize(src_pic);
@@ -410,6 +410,7 @@ vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 	}
 	return histogram;
 }
+*/
 
 //Praktikum 5 Histogram Equalization
 /* 
@@ -449,7 +450,6 @@ int main()
 */
 
 //Tugas
-/* 
 
 int main() {
 
@@ -484,8 +484,8 @@ int main() {
 		calcHist(&bgr_planes[2], 1, 0, Mat(), r_hist, 1, &histSize, &histRange, uniform, accumulate);
 
 		// Draw the histograms for B, G and R 
-		int hist_w = 512;
-		int hist_h = 400;
+		int hist_w = frame.cols;
+		int hist_h = frame.rows;
 		int bin_w = cvRound((double)hist_w / histSize);
 
 		Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
@@ -498,33 +498,29 @@ int main() {
 		/// Draw for each channel 
 		for (int i = 1; i < histSize; i++)
 		{
-			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(b_hist.at<float>(i))),
+			line(frame, Point(bin_w*(i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(b_hist.at<float>(i))),
 				Scalar(255, 0, 0), 2, 8, 0);
-			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(g_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(g_hist.at<float>(i))),
+			line(frame, Point(bin_w*(i - 1), hist_h - cvRound(g_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(g_hist.at<float>(i))),
 				Scalar(0, 255, 0), 2, 8, 0);
-			line(histImage, Point(bin_w*(i - 1), hist_h - cvRound(r_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(r_hist.at<float>(i))),
+			line(frame, Point(bin_w*(i - 1), hist_h - cvRound(r_hist.at<float>(i - 1))), Point(bin_w*(i), hist_h - cvRound(r_hist.at<float>(i))),
 				Scalar(0, 0, 255), 2, 8, 0);
 		}
 
 		Size sz1 = frame.size();
 		Size sz2 = histImage.size();
 
-
+		/* 
 		Mat im3(sz1.height, sz1.width+sz2.width, CV_8UC3);
 		Mat Left(im3, Rect(0, 0, sz1.width, sz1.height));
 		frame.copyTo(Left);
 		Mat Right(im3, Rect(sz1.width,0,sz2.width,sz2.height));
 		histImage.copyTo(Right);
-
+		*/
 		/// Display
-		imshow("Webcam", im3);
+		imshow("Webcam", frame);
 
 		if ((waitKey(30) & 0xFF) == 27) { // for portability
 			break;
 		}
 	}
 }
-
-
-
-*/

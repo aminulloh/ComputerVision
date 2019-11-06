@@ -379,7 +379,7 @@ int main() {
 
 
 //Tugas 4.2 Histogram without calhist
-
+/* 
 vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 {
 	CvSize size = cvGetSize(src_pic);
@@ -410,7 +410,7 @@ vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
 	}
 	return histogram;
 }
-
+*/
 //Praktikum 5 Histogram Equalization
 /* 
 int main()
@@ -528,3 +528,40 @@ int main() {
 
 
 */
+
+double alpha; // Simple contrast control 
+int beta;	// Simple brightness control 
+float Mp = 0.2, Ap = 0.1;
+
+int main()
+{
+	/// Read image given by user
+	Mat image = imread("../data/Cat.jpg"); // nama gambar silakan diganti sesuai gambar yang anda gunakan
+	Mat new_image = Mat::zeros(image.size(), image.type());
+
+	/// Initialize values
+	
+
+	/// Do the operation new_image(i, j) = alpha*image(i, j) + beta;
+	for (int y = 0; y < image.rows; y++)
+	{
+		for (int x = 0; x < image.cols; x++)
+		{
+			for (int c = 0; c < 3; c++)
+			{
+				new_image.at<Vec3b>(y, x)[c] = saturate_cast<uchar>(Mp*(image.at<Vec3b>(y, x)[c]) + Ap);
+			}
+		}
+	}
+	/// Create Windows 
+	namedWindow("Original Image", 1);
+	namedWindow("New Image", 1);
+
+	/// Show stuff
+	imshow("Original Image", image);
+	imshow("New Image", new_image);
+
+	/// Wait until user press some key 
+	waitKey();
+	return 0;
+}

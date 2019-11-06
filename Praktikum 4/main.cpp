@@ -13,6 +13,9 @@
 using namespace std;
 using namespace cv;
 
+int main() {
+
+}
 //Praktikum 1 Brightness and Contrast
 /* 
 double alpha; // Simple contrast control 
@@ -431,40 +434,6 @@ int main() {
 
 //Tugas 4.2 Histogram without calhist
 
->>>>>>> 055c987c2c77e33a930164cc3ae4b542baad6fef
-vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
-{
-	CvSize size = cvGetSize(src_pic);
-	double binSize = 256.0 / anzBin;        //new definition
-	vector<int> histogram(anzBin, 0);        //i don't know if this works so I
-											 //so I will leave it
-
-											 //goes through all rows
-	for (int y = 0; y<size.height; y++)
-	{
-		//grabs an entire row of the imageData
-		const uchar *src_pic_point = (uchar *)(src_pic->imageData + y*src_pic->widthStep);
-
-		//goes through each column
-		for (int x = 0; x<size.width; x++)
-		{
-			//for each bin
-			for (int z = 0; z < anzBin; z++)
-			{
-				//check both upper and lower limits
-				if (src_pic_point[x] >= z*binSize && src_pic_point[x] < (z + 1)*binSize)
-				{
-					//increment the index that contains the point
-					histogram[z]++;
-				}
-			}
-		}
-	}
-	return histogram;
-<<<<<<< HEAD
-}
-*/
-
 //Praktikum 5 Histogram Equalization
 /* 
 int main()
@@ -503,7 +472,7 @@ int main()
 */
 
 //Tugas
-
+/* 
 int main() {
 
 	// Don't use global variables if they are not needed!
@@ -568,7 +537,7 @@ int main() {
 		frame.copyTo(Left);
 		Mat Right(im3, Rect(sz1.width,0,sz2.width,sz2.height));
 		histImage.copyTo(Right);
-		*/
+		
 		/// Display
 		imshow("Webcam", frame);
 
@@ -579,7 +548,7 @@ int main() {
 }
 =======
 }
-
+*/
 //Praktikum 5 Histogram Equalization
 /* 
 int main()
@@ -697,4 +666,4 @@ int main() {
 
 
 */
->>>>>>> 055c987c2c77e33a930164cc3ae4b542baad6fef
+

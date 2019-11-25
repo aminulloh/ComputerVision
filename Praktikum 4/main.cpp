@@ -319,12 +319,12 @@ int main()
 */
 
 //Tugas 4.1 Histogram grayscale
-/* 
+ 
 int main() {
 	
 	Mat src, dst;
 	/// Load image
-	src = imread("OrangeCat.jpg", 1);
+	src = imread("../data/OrangeCat.jpg", 1);
 	if (!src.data)
 	{
 		return -1;
@@ -372,10 +372,10 @@ int main() {
 	namedWindow("Image", CV_WINDOW_AUTOSIZE);
 	imshow("Image", gray_image);
 
-	waitKey(0);
+	waitKey();
 	return 0;
 }
-*/
+
 
 
 //Tugas 4.2 Histogram without calhist
@@ -528,7 +528,7 @@ int main() {
 
 
 */
-
+/* 
 double alpha; // Simple contrast control 
 int beta;	// Simple brightness control 
 float Mp = 0.2, Ap = 0.1;
@@ -565,3 +565,4 @@ int main()
 	waitKey();
 	return 0;
 }
+*/

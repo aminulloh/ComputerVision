@@ -1,0 +1,18 @@
+Membaca Gambar
+x=imread(gambar input);
+xg=rgb2gray(x);
+Membaca Tempelate
+p=imread(temp;ate);
+pg=rgb2gray(p);
+xd=double(xg);
+pd=double(pg);
+Filter Gambar
+yd=normxcorr2(xd,pd);
+yd=255*yd/max(max(yd));
+y=uint8(yd);
+zd=255*(yd>126);
+z=uint8(zd);
+Menampilkan Gambar Hasil
+subplot(1,3,1), imshow(x), title('Image Asli')
+subplot(1,3,2), imshow(y), title('Hasil Filter')
+subplot(1,3,3), imshow(z), title('Thresholding')

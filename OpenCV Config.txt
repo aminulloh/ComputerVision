@@ -1,0 +1,32 @@
+OpenCV MS Visual Config
+
+VC++ Directories
+Include directories = $(SolutionDir)/../External Libraries/opencv2413/include;$(IncludePath)
+Library directories = $(SolutionDir)/../External Libraries/opencv2413/x64/vc11/lib;$(LibraryPath)
+
+C/C++
+Additional Include Directories = $(SolutionDir)/../External Libraries/opencv2413/include;%(AdditionalIncludeDirectories)
+
+Linker
+Additional Library Directories =  $(SolutionDir)/../External Libraries/opencv2413/x64/vc11/lib;%(AdditionalLibraryDirectories)
+
+Linker -> Input
+opencv_calib3d2413.lib
+opencv_contrib2413.lib
+opencv_core2413.lib
+opencv_features2d2413.lib
+opencv_flann2413.lib
+opencv_gpu2413.lib
+opencv_highgui2413.lib
+opencv_imgproc2413.lib
+opencv_legacy2413.lib
+opencv_ml2413.lib
+opencv_nonfree2413.lib
+opencv_objdetect2413.lib
+opencv_ocl2413.lib
+opencv_photo2413.lib
+opencv_stitching2413.lib
+opencv_superres2413.lib
+opencv_ts2413.lib
+opencv_video2413.lib
+opencv_videostab2413.lib

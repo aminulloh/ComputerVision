@@ -322,12 +322,12 @@ int main()
 */
 
 //Tugas 4.1 Histogram grayscale
-/* 
+ 
 int main() {
 	
 	Mat src, dst;
 	/// Load image
-	src = imread("OrangeCat.jpg", 1);
+	src = imread("../data/OrangeCat.jpg", 1);
 	if (!src.data)
 	{
 		return -1;
@@ -376,12 +376,17 @@ int main() {
 	namedWindow("Image", CV_WINDOW_AUTOSIZE);
 	imshow("Image", gray_image);
 
-	waitKey(0);
+	waitKey();
 	return 0;
 }
-*/
 
 
+<<<<<<< HEAD
+
+//Tugas 4.2 Histogram without calhist
+/* 
+vector<int> calcuHisto(const IplImage *src_pic, int anzBin)
+=======
 //Tugas 4.2 Histogram without calhist
 /* 
 =======
@@ -437,6 +442,7 @@ int main() {
 //Praktikum 5 Histogram Equalization
 /* 
 int main()
+>>>>>>> f33cb989b8531f6f3d5dc2f72ef71175398a76f1
 {
 	Mat src, dst;
 	char* source_window = "Source image";
@@ -546,8 +552,11 @@ int main() {
 		}
 	}
 }
+<<<<<<< HEAD
+=======
 =======
 }
+>>>>>>> f33cb989b8531f6f3d5dc2f72ef71175398a76f1
 */
 //Praktikum 5 Histogram Equalization
 /* 
@@ -666,4 +675,45 @@ int main() {
 
 
 */
+<<<<<<< HEAD
+/* 
+double alpha; // Simple contrast control 
+int beta;	// Simple brightness control 
+float Mp = 0.2, Ap = 0.1;
 
+int main()
+{
+	/// Read image given by user
+	Mat image = imread("../data/Cat.jpg"); // nama gambar silakan diganti sesuai gambar yang anda gunakan
+	Mat new_image = Mat::zeros(image.size(), image.type());
+
+	/// Initialize values
+	
+
+	/// Do the operation new_image(i, j) = alpha*image(i, j) + beta;
+	for (int y = 0; y < image.rows; y++)
+	{
+		for (int x = 0; x < image.cols; x++)
+		{
+			for (int c = 0; c < 3; c++)
+			{
+				new_image.at<Vec3b>(y, x)[c] = saturate_cast<uchar>(Mp*(image.at<Vec3b>(y, x)[c]) + Ap);
+			}
+		}
+	}
+	/// Create Windows 
+	namedWindow("Original Image", 1);
+	namedWindow("New Image", 1);
+
+	/// Show stuff
+	imshow("Original Image", image);
+	imshow("New Image", new_image);
+
+	/// Wait until user press some key 
+	waitKey();
+	return 0;
+}
+*/
+=======
+
+>>>>>>> f33cb989b8531f6f3d5dc2f72ef71175398a76f1
